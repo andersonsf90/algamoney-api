@@ -43,8 +43,14 @@ public class CategoriaResource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public Categoria buscarPeloCodigo(@PathVariable Long codigo) {
-	  return categoriaRepository.findById(codigo).orElse(null);
-	}
+	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
+		//Optional<Categoria> categoria = this.categoriaRepository.findById(codigo);
+		//return categoria.isPresent() ? 
+		//        ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
+		//vou deixar a solução com `map` para meu consagrado ver como é o map do Java😈
+		return this.categoriaRepository.findById(codigo)
+		  .map(categoria -> ResponseEntity.ok(categoria))
+		  .orElse(ResponseEntity.notFound().build());
+		}
 }
 
